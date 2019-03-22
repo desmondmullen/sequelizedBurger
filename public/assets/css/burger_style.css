@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Kranky', cursive;
+}
+
+button {
+    font-size: .75em;
+    padding: 5px;
+}
+
+input {
+    font-size: .5em;
+    padding: 2px;
+}
+
+.left-side ul {
+    margin-left: 15%;
+}
+
+.right-side ul {
+    margin-left: 27%;
+}
+
+li {
+    font-size: 1.5em;
+}
+
+.heading {
+    text-align: center;
+    font-family: 'Kranky', cursive;
+    font-size: 5em;
+    background-color: #CBFF0D;
+    margin: 2.5% 3.5%;
+}
+
+a.heading-text {
+    text-decoration: none;
+    color: black;
+}
+
+.center {
+    text-align: center;
+}
+
+.icon {
+    position: absolute;
+    top: 2.5%;
+    left: 8%;
+}
+
+.col-container {
+    display: table;
+    margin: 0 auto;
+    width: 93%;
+}
+
+.left-side, .right-side, .middle {
+    display: table-cell;
+}
+
+.left-side {
+    width: 45%;
+    background-color: #0DD1FF;
+}
+
+.right-side {
+    width: 45%;
+    background-color: #E8950C;
+}
+
+.last-one-added {
+    margin-left: -20%;
+}
+
+.middle {
+    width: 3%;
+}
+
+.add-a-burger {
+    text-align: center;
+    font-size: 2em;
+    background-color: lightgray;
+    margin: 3% 3.5% 2% 3.5%;
+    padding: 1%;
+}
+
+.add-a-burger-heading {
+    margin: 0 0;
+}
+
+.footer {
+    text-align: center;
+    font-size: 1.2em;
+}

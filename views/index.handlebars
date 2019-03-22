@@ -1,0 +1,64 @@
+<div><a href='/' class='heading-text'>
+        <img class='icon' src='assets/img/black-bean-burger.png' width=220>
+        <h1 class='heading heading-text'>Eat Da Burger!</h1>
+    </a>
+</div>
+<div class='col-container'>
+    <div class='left-side'>
+        <section class='center'>
+            <h2>Burgers that have been created</h2>
+        </section>
+        <ul>
+            {{#each burgers}}
+            {{#unless devoured}}
+            <li class='created-li'>
+                <form method='POST' action='/{{this.id}}?_method=PUT'>
+                    {{burger_name}} &nbsp;<button id='brg-{{this.id}}' class='brg' type='submit'>Devour this
+                        burger!</button>
+                </form>
+            </li>
+            {{/unless}}
+            {{#if last_one_devoured}}
+            <li class='created-li'>
+                <section class='last-one-devoured'>{{burger_name}}</section>
+            </li>
+            {{/if}}
+            {{/each}}
+        </ul>
+    </div>
+    <div class='middle'></div>
+    <div class='right-side'>
+        <section class='center'>
+            <h2>Hall of Fame<br>(Burgers that have been devoured)</h2>
+        </section>
+        <ul>
+            {{#each burgers}}
+            {{#if last_one_devoured}}
+            <li class='devoured-li'>
+                <section class='last-one-added'>{{burger_name}}</section>
+            </li>
+            {{else}}
+            {{#if devoured}}
+            <li class='devoured-li'>
+                {{burger_name}}
+            </li>
+            {{/if}}
+            {{/if}}
+            {{/each}}
+        </ul>
+    </div>
+</div>
+<div class='add-a-burger'>
+    <h2 class='add-a-burger-heading'>Add a Burger of your own!</h2>
+    <form action='/' method='post'>
+        Burger name: <input type='text' name='burger_name' autofocus size='35'> <input class='button' type='submit'
+            value='Submit'>
+    </form>
+</div>
+<script>
+    $('.last-one-devoured').animate({ opacity: '0', 'margin-left': '+=20%' }, 1000);
+    $('.last-one-added').attr({ 'style': 'opacity: 0' });
+    setTimeout(function () {
+        $('.last-one-added').animate({ opacity: '1', 'margin-left': '+=20%' }, 1000);
+    }, 600);
+</script>
