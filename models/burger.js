@@ -1,26 +1,12 @@
-const orm = require('../config/orm.js');
-
-const burger = {
-    all: function (cb) {
-        orm.selectAll('burgers', function (res) {
-            cb(res);
-        });
-    },
-    create: function (burgerName, cb) {
-        orm.insertOne('burgers', 'burger_name', burgerName, function (res) {
-            cb(res);
-        });
-    },
-    update: function (objColVals, condition, cb) {
-        orm.updateOne('burgers', objColVals, condition, function (res) {
-            cb(res);
-        });
-    },
-    delete: function (condition, cb) {
-        orm.delete('burgers', condition, function (res) {
-            cb(res);
-        });
-    }
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Burger = sequelize.define('Burger', {
+    burger_name: DataTypes.STRING,
+    devoured: DataTypes.BOOLEAN,
+    last_one_devoured: DataTypes.BOOLEAN
+  }, {});
+  Burger.associate = function (models) {
+    // associations can be defined here
+  };
+  return Burger;
 };
-
-module.exports = burger;
