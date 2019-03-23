@@ -6,6 +6,10 @@ const router = express.Router();
 // =============================================================
 function displayAll(res) {
   db.Burger.findAll({}).then(result => {
+    const hbsObject = {
+      burgers: result
+    };
+    res.render('index', hbsObject);
     db.Burger.update(
       {
         last_one_devoured: false
@@ -15,12 +19,7 @@ function displayAll(res) {
           devoured: true
         }
       }
-    ).then(() => {
-      const hbsObject = {
-        burgers: result
-      };
-      res.render('index', hbsObject);
-    });
+    );
   });
 }
 

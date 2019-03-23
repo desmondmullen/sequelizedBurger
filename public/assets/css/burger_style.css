@@ -70,6 +70,7 @@ a.heading-text {
 }
 
 .last-one-added {
+    opacity: 0;
     margin-left: -20%;
 }
 
