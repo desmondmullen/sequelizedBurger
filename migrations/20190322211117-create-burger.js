@@ -13,19 +13,21 @@ module.exports = {
       },
       devoured: {
         type: Sequelize.BOOLEAN,
-        default: false
+        default: 0
       },
       last_one_devoured: {
         type: Sequelize.BOOLEAN,
-        default: false
+        default: 0
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        default: Date.now()
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        default: Date.now()
       }
     });
   },
