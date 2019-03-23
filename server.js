@@ -5,7 +5,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const db = require('./models');
 
-require('./routes/api-routes.js')(app);
+const routes = require('./routes/api-routes.js');
 
 app.use(express.static('public'));
 
@@ -16,7 +16,7 @@ app.use(methodOverride('_method'));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// app.use(routes);
+app.use(routes);
 
 db.sequelize.sync().then(() => {
     app.listen(PORT, () => {
