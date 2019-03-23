@@ -12,12 +12,14 @@ module.exports = {
         type: Sequelize.STRING
       },
       devoured: {
+        allowNull: false,
         type: Sequelize.BOOLEAN,
-        default: 0
+        default: false
       },
       last_one_devoured: {
+        allowNull: false,
         type: Sequelize.BOOLEAN,
-        default: 0
+        default: false
       },
       createdAt: {
         allowNull: false,
