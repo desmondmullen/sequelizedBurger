@@ -15,13 +15,12 @@ function displayAll(res) {
           devoured: true
         }
       }
-    ).then((result) => {
-      console.log('cleared ' + result);
+    ).then(() => {
+      const hbsObject = {
+        burgers: result
+      };
+      res.render('index', hbsObject);
     });
-    const hbsObject = {
-      burgers: result
-    };
-    res.render('index', hbsObject);
   });
 }
 
