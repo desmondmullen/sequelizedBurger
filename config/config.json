@@ -4,13 +4,19 @@
     "password": "vivian",
     "database": "sequelizedBurger_db",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "dialectOptions": {
+      "multipleStatements": true
+    }
   },
   "production": {
     "username": "sg0q0ykazlek9gl1",
     "password": "x3i0m9mn553klqlj",
     "database": "km8fo0k3zvnlehjq",
     "host": "zj2x67aktl2o6q2n.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "dialectOptions": {
+      "multipleStatements": true
+    }
   }
 }
