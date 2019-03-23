@@ -5,7 +5,9 @@ const router = express.Router();
 // Routes
 // =============================================================
 function displayAll(res) {
-  db.Burger.findAll({}).then(result => {
+  db.Burger.findAll({
+    order: [['burger_name', 'ASC']]
+  }).then(result => {
     const hbsObject = {
       burgers: result
     };
