@@ -6,6 +6,18 @@ const router = express.Router();
 // =============================================================
 function displayAll(res) {
   db.Burger.findAll({}).then(result => {
+    db.Burger.update(
+      {
+        last_one_devoured: false
+      },
+      {
+        where: {
+          devoured: true
+        }
+      }
+    ).then((result) => {
+      console.log('cleared ' + result);
+    });
     const hbsObject = {
       burgers: result
     };
@@ -27,7 +39,7 @@ router.post('/', (req, res) => {
         displayAll(res);
       })
       .catch(err => {
-        console.log(err.Error.msg);
+        // console.log(err.Error.msg);
         res.json(err);
       });
   } else {
