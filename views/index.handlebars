@@ -9,13 +9,24 @@
             <h2>Burgers that have been created</h2>
         </section>
         <ul>
-            {{#each burgers}}
+            {{#with data as |data|}}
+            {{#each data.burgers}}
             {{#unless devoured}}
             <li class='created-li'>
-                <form method='POST' action='/{{this.id}}?_method=PUT'>
-                    {{burger_name}} &nbsp;<button id='brg-{{this.id}}' class='brg' type='submit'>Devour this
+                <div class="dropdown">
+                    {{burger_name}} &nbsp;<button onclick="myFunction()" class="dropbtn" id='brg-{{this.id}}'>Devour
+                        this
                         burger!</button>
-                </form>
+                    <div id="myDropdown" class="dropdown-content">
+                        {{!-- {{> customers/customer-block}} --}}
+                        {{#each data.customers}}
+                        <!--id='cst-{{this.id}}'-->
+                        <a href="#" class="dropdown-choice" id='cst-{{this.id}}'>{{customer_name}}</a>
+                        {{/each}}
+                        <a href="#"><input type="text" placeholder="Add my name..." id="addMyName"
+                                onchange="addMyName()"></a>
+                    </div>
+                </div>
             </li>
             {{/unless}}
             {{#if last_one_devoured}}
@@ -26,13 +37,14 @@
             {{/each}}
         </ul>
     </div>
-    <div class='middle'></div>
+    <div class='middle'>
+    </div>
     <div class='right-side'>
         <section class='center'>
             <h2>Hall of Fame<br>(Burgers that have been devoured)</h2>
         </section>
         <ul>
-            {{#each burgers}}
+            {{#each data.burgers}}
             {{#if last_one_devoured}}
             <li class='devoured-li'>
                 <section class='last-one-added'>{{burger_name}}</section>
@@ -45,19 +57,70 @@
             {{/if}}
             {{/if}}
             {{/each}}
+            {{/with}}
         </ul>
     </div>
 </div>
 <div class='add-a-burger'>
     <h2 class='add-a-burger-heading'>Add a Burger of your own!</h2>
     <form action='/' method='post'>
-        Burger name: <input type='text' name='burger_name' autofocus size='35'> <input class='button' type='submit'
-            value='Submit'>
+        Your name: <input type='text' name='your_name' autofocus size='35'> Burger name: <input type='text'
+            name='burger_name' size='35'> <input class='button' type='submit' value='Submit'>
     </form>
 </div>
 <script>
+    var targetId = '';
     $('.last-one-devoured').animate({ opacity: '0', 'margin-left': '+=20%' }, 1000);
     setTimeout(function () {
         $('.last-one-added').animate({ opacity: '1', 'margin-left': '+=20%' }, 1000);
     }, 600);
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (event.target.matches('.dropbtn')) {
+            targetId = (event.target.id).split('-')[1];
+        }
+        if (event.target.matches('.dropdown-choice')) {
+            console.log('this');
+            toggleDropdown();
+            targetCustomerId = (event.target.id).split('-')[1];
+            doAjaxCall(targetCustomerId, event.target.text);
+        }
+    };
+
+    function doAjaxCall(customerId, customerName) {
+        $.ajax({
+            url: '/',    //Your api url
+            type: 'PUT',   //type is any HTTP method
+            data: {
+                id: targetId,
+                customerId: customerId,
+                customer_name: customerName
+            },      //Data as js object
+            success: function (result) {
+                console.log('sent ajax ' + targetId + ', ' + customerId);
+                document.open();
+                document.write(result);
+                document.close();
+            }
+        });
+    };
+
+    function toggleDropdown() {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        };
+    };
+
+    function addMyName() {
+        toggleDropdown();
+        doAjaxCall(null, document.getElementById("addMyName").value);
+    };
 </script>

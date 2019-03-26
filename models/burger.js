@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     last_one_devoured: DataTypes.BOOLEAN
   }, {});
   Burger.associate = function (models) {
-    // associations can be defined here
+    // Burger.belongsTo(models.customer, {
+    //   foreignKey: {
+    //     allowNull: false
+    //   }
+    // });
   };
   return Burger;
 };
