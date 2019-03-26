@@ -18,12 +18,10 @@
                         this
                         burger!</button>
                     <div id="myDropdown" class="dropdown-content">
-                        {{!-- {{> customers/customer-block}} --}}
                         {{#each data.customers}}
-                        <!--id='cst-{{this.id}}'-->
                         <a href="#" class="dropdown-choice" id='cst-{{this.id}}'>{{customer_name}}</a>
                         {{/each}}
-                        <a href="#"><input type="text" placeholder="Add my name..." id="addMyName"
+                        <a href="#"><input type="text" placeholder="Add your name..." id="addMyName"
                                 onchange="addMyName()"></a>
                     </div>
                 </div>
@@ -83,24 +81,23 @@
             targetId = (event.target.id).split('-')[1];
         }
         if (event.target.matches('.dropdown-choice')) {
-            console.log('this');
             toggleDropdown();
             targetCustomerId = (event.target.id).split('-')[1];
             doAjaxCall(targetCustomerId, event.target.text);
         }
     };
 
-    function doAjaxCall(customerId, customerName) {
+    function doAjaxCall(customer_id, customer_name) {
         $.ajax({
-            url: '/',    //Your api url
-            type: 'PUT',   //type is any HTTP method
+            url: '/',
+            type: 'PUT',
             data: {
                 id: targetId,
-                customerId: customerId,
-                customer_name: customerName
+                customer_id: customer_id,
+                customer_name: customer_name
             },      //Data as js object
             success: function (result) {
-                console.log('sent ajax ' + targetId + ', ' + customerId);
+                //console.log('sent ajax ' + targetId + ', ' + customerId + ', ' + customerName);
                 document.open();
                 document.write(result);
                 document.close();

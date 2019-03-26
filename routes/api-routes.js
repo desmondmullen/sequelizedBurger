@@ -73,7 +73,15 @@ router.put('/', (req, res) => {
       }
     }
   ).then(() => {
-    displayAll(res);
+    console.log(req.body.customer_id)
+    if (req.body.customer_id !== '') {
+      displayAll(res);
+    } else {
+      db.Customer.create({ customer_name: req.body.customer_name })
+        .then(() => {
+          displayAll(res);
+        });
+    }
   });
 });
 
