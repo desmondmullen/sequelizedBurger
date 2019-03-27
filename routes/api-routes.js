@@ -43,11 +43,19 @@ router.get('/', (req, res) => {
 
 // POST route for saving a new burger. We can create a burger using the data on req.body
 router.post('/', (req, res) => {
-  // console.log(req.body.burger_name);
   if (req.body.burger_name) {
     db.Burger.create({ burger_name: req.body.burger_name })
       .then(() => {
-        displayAll(res);
+        if (req.body.customer_id != undefined) {
+          console.log('no new' + req.body.customer_name);
+          displayAll(res);
+        } else {
+          db.Customer.create({ customer_name: req.body.customer_name })
+            .then(() => {
+              console.log('created' + req.body.customer_name);
+              displayAll(res);
+            });
+        }
       })
       .catch(err => {
         // console.log(err.Error.msg);
@@ -73,7 +81,7 @@ router.put('/', (req, res) => {
       }
     }
   ).then(() => {
-    console.log(req.body.customer_id)
+    // console.log(req.body.customer_id)
     if (req.body.customer_id !== '') {
       displayAll(res);
     } else {

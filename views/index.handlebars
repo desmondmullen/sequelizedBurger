@@ -61,10 +61,22 @@
 </div>
 <div class='add-a-burger'>
     <h2 class='add-a-burger-heading'>Add a Burger of your own!</h2>
-    <form action='/' method='post'>
-        Your name: <input type='text' name='your_name' autofocus size='35'> Burger name: <input type='text'
+    {{!-- <form action='/' method='post'> --}}
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn" id='brg-{{this.id}}'>Select or add your name</button>
+        <div id="myDropdown" class="dropdown-content">
+            {{#each data.customers}}
+            <a href="#" class="dropdown-choice" id='cst-{{this.id}}'>{{customer_name}}</a>
+            {{/each}}
+            <a href="#"><input type="text" placeholder="Add your name..." id="addMyName" onchange="addMyName()"></a>
+        </div>
+    </div>
+    Burger name: <input type='text' name='burger_name' size='35'> <input class='button' type='submit' value='Submit'>
+    {{!-- </form> --}}
+    <!-- <form action='/' method='post'>
+        Your name: <input type='text' name='customer_name' autofocus size='35'> Burger name: <input type='text'
             name='burger_name' size='35'> <input class='button' type='submit' value='Submit'>
-    </form>
+    </form> -->
 </div>
 <script>
     var targetId = '';
