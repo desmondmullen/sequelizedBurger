@@ -167,7 +167,7 @@
     function addNewBurger() {
         let theBurger = document.getElementById('newBurgerName').value
         let theName = document.getElementById('addBurgerSelectName').innerHTML
-        if (theBurger.trim() !== '' && theName !== 'Select or add your name') {
+        if (theBurger.trim() !== '' && !theName.includes('Select or add your name')) {
             data = { // this will update Burgers
                 maker: theName,
                 burger_name: theBurger
