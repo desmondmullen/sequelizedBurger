@@ -95,6 +95,7 @@
     // Close the dropdown menu if the user clicks outside of it
 
     window.onclick = function (event) {
+        console.log(event.target);
         event.preventDefault();
         if (event.target.matches('.addMyNameButton')) {
             addMyName();
@@ -121,6 +122,18 @@
             document.getElementById('addBurgerSelectName').innerHTML = (event.target.id).split('-')[1].value;
         }
         if (event.target.matches('.created-li')) {
+            toggleDropdown();
+        }
+        if (event.target.matches('.right-side')) {
+            toggleDropdown();
+        }
+        if (event.target.matches('.add-a-burger-heading')) {
+            toggleDropdown();
+        }
+        if (event.target.matches('.add-a-burger')) {
+            toggleDropdown();
+        }
+        if (event.target.matches('body')) {
             toggleDropdown();
         }
     };
