@@ -5,7 +5,6 @@ const router = express.Router();
 // Routes
 // =============================================================
 function displayAll(res) {
-  // console.log(res);
   db.Customer.findAll({
     order: [['customer_name', 'ASC']]
   }).then(customerResult => {
@@ -13,8 +12,6 @@ function displayAll(res) {
     db.Burger.findAll({
       order: [['burger_name', 'ASC']]
     }).then(burgerResult => {
-      // console.log(burgerResult[0].burger_name);
-      // console.log(customerResult[0].customer_name);
       const hbsObject = {
         data: {
           burgers: burgerResult,
@@ -43,22 +40,29 @@ router.get('/', (req, res) => {
 
 // POST route for saving a new burger. We can create a burger using the data on req.body
 router.post('/', (req, res) => {
-  if (req.body.burger_name) {
-    db.Burger.create({ burger_name: req.body.burger_name })
+  // db.Customer.create({ customer_name: req.body.customer_name })
+  //   .then((result) => {
+  //     console.log(result.id);
+  db.Burger.create({
+    burger_name: req.body.burger_name,
+    maker: req.body.maker
+  })
+    .then(() => {
+      displayAll(res);
+    });
+  // })
+  // .catch(err => {
+  //   res.json(err);
+  // });
+});
+
+router.post('/Customers', (req, res) => {
+  if (req.body.customer_name) {
+    db.Customer.create({ customer_name: req.body.customer_name })
       .then(() => {
-        if (req.body.customer_id != undefined) {
-          console.log('no new' + req.body.customer_name);
-          displayAll(res);
-        } else {
-          db.Customer.create({ customer_name: req.body.customer_name })
-            .then(() => {
-              console.log('created' + req.body.customer_name);
-              displayAll(res);
-            });
-        }
+        displayAll(res);
       })
       .catch(err => {
-        // console.log(err.Error.msg);
         res.json(err);
       });
   } else {
@@ -67,29 +71,20 @@ router.post('/', (req, res) => {
 });
 
 // PUT route for updating burgers. We can access the updated burger in req.body
-router.put('/', (req, res) => {
-  // router.put('/:id', (req, res) => {
+router.put('/Burgers', (req, res) => {
   db.Burger.update(
     {
       devoured: true,
-      last_one_devoured: true
+      last_one_devoured: true,
+      eater: req.body.eater
     },
     {
       where: {
         id: req.body.id
-        // id: req.params.id
       }
     }
   ).then(() => {
-    // console.log(req.body.customer_id)
-    if (req.body.customer_id !== '') {
-      displayAll(res);
-    } else {
-      db.Customer.create({ customer_name: req.body.customer_name })
-        .then(() => {
-          displayAll(res);
-        });
-    }
+    displayAll(res);
   });
 });
 

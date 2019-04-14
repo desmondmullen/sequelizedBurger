@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     }, {});
-    Customer.associate = function (models) {
-    };
+
     return Customer;
 };

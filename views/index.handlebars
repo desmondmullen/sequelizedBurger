@@ -13,23 +13,25 @@
             {{#each data.burgers}}
             {{#unless devoured}}
             <li class='created-li'>
-                <div class="dropdown">
-                    {{burger_name}} &nbsp;<button onclick="myFunction()" class="dropbtn" id='brg-{{this.id}}'>Devour
+                <div class='dropdown'>
+                    {{burger_name}} <span class='small'>by {{maker}}</span> &nbsp;<button onclick='doToggle()'
+                        class='dropbtn' id='brg-{{this.id}}'>Devour
                         this
                         burger!</button>
-                    <div id="myDropdown" class="dropdown-content">
+                    <div id='theDropdown' class='dropdown-content'>
                         {{#each data.customers}}
-                        <a href="#" class="dropdown-choice" id='cst-{{this.id}}'>{{customer_name}}</a>
+                        <a href='#' class='dropdown-choice' id='cst-{{this.customer_name}}'>{{customer_name}}</a>
                         {{/each}}
-                        <a href="#"><input type="text" placeholder="Add your name..." id="addMyName"
-                                onchange="addMyName()"></a>
+                        <input type='text' placeholder='Add your name...' id='addMyName'><input
+                            class='button addMyNameButton' type='submit'>
                     </div>
                 </div>
             </li>
             {{/unless}}
             {{#if last_one_devoured}}
             <li class='created-li'>
-                <section class='last-one-devoured'>{{burger_name}}</section>
+                <section class='last-one-devoured'>{{burger_name}} <span class='small'>by {{maker}}</span>
+                </section>
             </li>
             {{/if}}
             {{/each}}
@@ -45,12 +47,14 @@
             {{#each data.burgers}}
             {{#if last_one_devoured}}
             <li class='devoured-li'>
-                <section class='last-one-added'>{{burger_name}}</section>
+                <section class='last-one-added'>{{burger_name}} <span class='small'>by {{maker}}, eaten by
+                        {{eater}}</span>
+                </section>
             </li>
             {{else}}
             {{#if devoured}}
             <li class='devoured-li'>
-                {{burger_name}}
+                {{burger_name}} <span class='small'>by {{maker}}, eaten by {{eater}}</span>
             </li>
             {{/if}}
             {{/if}}
@@ -61,64 +65,89 @@
 </div>
 <div class='add-a-burger'>
     <h2 class='add-a-burger-heading'>Add a Burger of your own!</h2>
-    {{!-- <form action='/' method='post'> --}}
-    <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn" id='brg-{{this.id}}'>Select or add your name</button>
-        <div id="myDropdown" class="dropdown-content">
+    <div class='dropdown'>
+        <button onclick='doToggle()' class='dropbtn addBurger-dropdown-choice' id='addBurgerSelectName'>
+            <a href='#' class='addBurger-dropdown-choice' id='cst-{{this.customer_name}}'>{{customer_name}}</a>
+            Select or add your name</button>
+        <div id='theDropdown2' class='dropdown-content'>
+            {{#with data as |data|}}
             {{#each data.customers}}
-            <a href="#" class="dropdown-choice" id='cst-{{this.id}}'>{{customer_name}}</a>
+            <a href='#' class='addBurger-dropdown-choice' id='cst-{{this.id}}'>{{customer_name}}</a>
             {{/each}}
-            <a href="#"><input type="text" placeholder="Add your name..." id="addMyName" onchange="addMyName()"></a>
+            {{/with}}
+            <input type='text' placeholder='Add your name...' id='newCustName'><input class='button addMyNameButton'
+                type='submit'>
         </div>
     </div>
-    Burger name: <input type='text' name='burger_name' size='35'> <input class='button' type='submit' value='Submit'>
-    {{!-- </form> --}}
-    <!-- <form action='/' method='post'>
-        Your name: <input type='text' name='customer_name' autofocus size='35'> Burger name: <input type='text'
-            name='burger_name' size='35'> <input class='button' type='submit' value='Submit'>
-    </form> -->
+    Burger name: <input id='newBurgerName' type='text' name='burger_name' size='35'> <input class='button' type='submit'
+        onclick='addNewBurger()'>
 </div>
 <script>
-    var targetId = '';
+    var targetId = 1;
     $('.last-one-devoured').animate({ opacity: '0', 'margin-left': '+=20%' }, 1000);
     setTimeout(function () {
         $('.last-one-added').animate({ opacity: '1', 'margin-left': '+=20%' }, 1000);
     }, 600);
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
+
+    function doToggle() {
+        document.getElementById('theDropdown').classList.toggle('show');
     }
     // Close the dropdown menu if the user clicks outside of it
+
     window.onclick = function (event) {
+        event.preventDefault();
+        if (event.target.matches('.addMyNameButton')) {
+            addMyName();
+        }
         if (event.target.matches('.dropbtn')) {
             targetId = (event.target.id).split('-')[1];
         }
         if (event.target.matches('.dropdown-choice')) {
+            console.log('here');
             toggleDropdown();
             targetCustomerId = (event.target.id).split('-')[1];
-            doAjaxCall(targetCustomerId, event.target.text);
+            data = { // this will update Burgers
+                id: targetId,
+                eater: targetCustomerId
+            };
+            if (targetId === undefined) {
+                console.log('id is undefined');
+                document.getElementById('addBurgerSelectName').innerHTML = targetCustomerId;
+            } else {
+                console.log('id is defined');
+                doAjaxCall('/Burgers', 'PUT', data);
+            };
+        }
+        if (event.target.matches('.addBurger-dropdown-choice')) {
+            console.log((event.target.id).split('-')[1].value);
+            toggleDropdown();
+            document.getElementById('addBurgerSelectName').innerHTML = (event.target.id).split('-')[1].value;
+        }
+        if (event.target.matches('.created-li')) {
+            toggleDropdown();
         }
     };
 
-    function doAjaxCall(customer_id, customer_name) {
+    function doAjaxCall(url, type, data) {
+        console.log('this: ' + data);
         $.ajax({
-            url: '/',
-            type: 'PUT',
-            data: {
-                id: targetId,
-                customer_id: customer_id,
-                customer_name: customer_name
-            },      //Data as js object
+            url: url,
+            type: type,
+            data: data,
             success: function (result) {
-                //console.log('sent ajax ' + targetId + ', ' + customerId + ', ' + customerName);
+                console.log('sent ajax ' + data);
                 document.open();
                 document.write(result);
                 document.close();
+            },
+            error: function (response) {
+                console.log(response);
             }
         });
     };
 
     function toggleDropdown() {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var dropdowns = document.getElementsByClassName('dropdown-content');
         var i;
         for (i = 0; i < dropdowns.length; i++) {
             var openDropdown = dropdowns[i];
@@ -130,6 +159,18 @@
 
     function addMyName() {
         toggleDropdown();
-        doAjaxCall(null, document.getElementById("addMyName").value);
+        document.getElementById('addBurgerSelectName').innerHTML = document.getElementById('addMyName').value;
+        data = {
+            customer_name: document.getElementById('addMyName').value
+        };
+        doAjaxCall('/Customers', 'POST', data);
+    };
+
+    function addNewBurger() {
+        data = { // this will update Burgers
+            maker: document.getElementById('addBurgerSelectName').innerHTML,
+            burger_name: document.getElementById('newBurgerName').value
+        };
+        doAjaxCall('/', 'POST', data);
     };
 </script>

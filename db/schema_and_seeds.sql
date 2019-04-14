@@ -1,29 +1,60 @@
-drop database if exists burgers_db;
-create database burgers_db;
+drop database if exists sequelizedBurger_db;
+create database sequelizedBurger_db;
 
-use burgers_db;
+use sequelizedBurger_db;
 
-create table burgers
+create table customers
 (
     id integer not null
     auto_increment,
-burger_name varchar
+customer_name varchar
     (50) not null,
-devoured boolean not null default 0,
-last_one_devoured boolean not null default 0,
+    display_this_name boolean not null default 0,
+    createdAt TIMESTAMP
+default CURRENT_TIMESTAMP,
+updatedAt TIMESTAMP,
 primary key
     (id)
 );
 
+    create table burgers
+    (
+        id integer not null
+        auto_increment,
+burger_name varchar
+        (50) not null,
+devoured boolean not null default 0,
+last_one_devoured boolean
+not null default 0,
+maker varchar
+        (50),
+eater varchar
+        (50),
+        createdAt TIMESTAMP
+default CURRENT_TIMESTAMP,
+updatedAt TIMESTAMP,
+primary key
+        (id)
+);
 
-    USE burgers_db;
+        USE sequelizedBurger_db;
 
-    INSERT INTO burgers
-        (burger_name)
-    VALUES
-        ('Yum Burger'),
-        ('Zippy Burger'),
-        ('Wow Burger'),
-        ('Zoinks Burger'),
-        ('Unbeliev-O Burger')
-    ;
+        INSERT INTO customers
+            (customer_name)
+        VALUES
+            ('Desmond'),
+            ('Vivian'),
+            ('Angie'),
+            ('Peter'),
+            ('Liam')
+        ;
+
+        INSERT INTO burgers
+            (burger_name, maker)
+        VALUES
+            ('Yum Burger', 'Desmond'),
+            ('Zippy Burger', 'Desmond'),
+            ('Wow Burger', 'Desmond'),
+            ('Zoinks Burger', 'Desmond'),
+            ('Unbeliev-O Burger', 'Desmond')
+        ;

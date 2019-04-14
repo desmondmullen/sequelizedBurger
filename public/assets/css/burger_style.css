@@ -15,15 +15,19 @@ input {
 }
 
 .left-side ul {
-    margin-left: 15%;
+    margin-left: 8%;
 }
 
 .right-side ul {
-    margin-left: 27%;
+    margin-left: 12%;
 }
 
 li {
     font-size: 1.5em;
+}
+
+.small {
+    font-size: .7em;
 }
 
 .heading {

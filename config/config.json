@@ -18,5 +18,8 @@
     "dialectOptions": {
       "multipleStatements": true
     }
+  },
+  "scripts": {
+    "lint": "eslint sequelizedBurger *.js"
   }
 }

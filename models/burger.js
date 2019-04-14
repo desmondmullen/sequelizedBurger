@@ -14,8 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     last_one_devoured: {
       type: DataTypes.BOOLEAN,
     },
+    maker: {
+      type: DataTypes.STRING,
+    },
+    eater: {
+      type: DataTypes.STRING,
+    },
   }, {});
-  Burger.associate = function (models) {
-  };
+
   return Burger;
 };
