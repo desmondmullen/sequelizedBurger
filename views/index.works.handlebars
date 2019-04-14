@@ -88,12 +88,10 @@
     setTimeout(function () {
         $('.last-one-added').animate({ opacity: '1', 'margin-left': '+=20%' }, 1000);
     }, 600);
-
     function doToggle() {
         document.getElementById('theDropdown').classList.toggle('show');
     }
     // Close the dropdown menu if the user clicks outside of it
-
     window.onclick = function (event) {
         event.preventDefault();
         if (event.target.matches('.addMyNameButton')) {
@@ -124,7 +122,6 @@
             toggleDropdown();
         }
     };
-
     function doAjaxCall(url, type, data) {
         $.ajax({
             url: url,
@@ -140,7 +137,6 @@
             }
         });
     };
-
     function toggleDropdown() {
         var dropdowns = document.getElementsByClassName('dropdown-content');
         var i;
@@ -151,28 +147,19 @@
             }
         };
     };
-
     function addMyName() {
         toggleDropdown();
-        let theName = document.getElementById('addMyName').value
-        if (theName.trim() !== '') {
-            document.getElementById('addBurgerSelectName').innerHTML = theName;
-            data = {
-                customer_name: theName
-            };
-            doAjaxCall('/Customers', 'POST', data);
+        document.getElementById('addBurgerSelectName').innerHTML = document.getElementById('addMyName').value;
+        data = {
+            customer_name: document.getElementById('addMyName').value
         };
+        doAjaxCall('/Customers', 'POST', data);
     };
-
     function addNewBurger() {
-        let theBurger = document.getElementById('newBurgerName').value
-        let theName = document.getElementById('addBurgerSelectName').innerHTML
-        if (theBurger.trim() !== '' && theName !== 'Select or add your name') {
-            data = { // this will update Burgers
-                maker: theName,
-                burger_name: theBurger
-            };
-            doAjaxCall('/', 'POST', data);
+        data = { // this will update Burgers
+            maker: document.getElementById('addBurgerSelectName').innerHTML,
+            burger_name: document.getElementById('newBurgerName').value
         };
+        doAjaxCall('/', 'POST', data);
     };
 </script>

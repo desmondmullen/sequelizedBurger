@@ -33,16 +33,11 @@ function displayAll(res) {
   });
 }
 
-// GET route for getting all of the burgers
 router.get('/', (req, res) => {
   displayAll(res);
 });
 
-// POST route for saving a new burger. We can create a burger using the data on req.body
 router.post('/', (req, res) => {
-  // db.Customer.create({ customer_name: req.body.customer_name })
-  //   .then((result) => {
-  //     console.log(result.id);
   db.Burger.create({
     burger_name: req.body.burger_name,
     maker: req.body.maker
@@ -50,10 +45,6 @@ router.post('/', (req, res) => {
     .then(() => {
       displayAll(res);
     });
-  // })
-  // .catch(err => {
-  //   res.json(err);
-  // });
 });
 
 router.post('/Customers', (req, res) => {
@@ -70,7 +61,6 @@ router.post('/Customers', (req, res) => {
   }
 });
 
-// PUT route for updating burgers. We can access the updated burger in req.body
 router.put('/Burgers', (req, res) => {
   db.Burger.update(
     {
